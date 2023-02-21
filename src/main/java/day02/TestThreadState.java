@@ -6,7 +6,7 @@ import static day02.LoggerUtils.main;
 public class TestThreadState {
     static final Object LOCK = new Object();
     public static void main(String[] args) throws InterruptedException {
-        testWaiting();
+        testSleep();
     }
 
     private static void testWaiting() {
@@ -57,5 +57,19 @@ public class TestThreadState {
         main.debug("state: {}", t1.getState()); // 2
 
         main.debug("state: {}", t1.getState()); // 4
+    }
+
+    private static void testSleep() throws InterruptedException {
+        Thread t2 = new Thread(()->{
+            logger1.debug("running...");
+
+        },"t2");
+
+        main.debug("state: {}",t2.getState());// 1
+        t2.start();
+        main.debug("state: {}",t2.getState());
+        t2.sleep(10000);
+
+        main.debug("state: {}",t2.getState());
     }
 }
