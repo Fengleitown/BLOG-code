@@ -24,7 +24,7 @@ public class TestThreadPoolExecutor {
                 TimeUnit.MILLISECONDS,
                 queue,
                 r -> new Thread(r, "myThread" + c.getAndIncrement()),
-                new ThreadPoolExecutor.DiscardOldestPolicy());
+                new ThreadPoolExecutor.AbortPolicy());
         showState(queue, threadPool);
         threadPool.submit(new MyTask("1", 3600000));
         showState(queue, threadPool);
@@ -34,7 +34,7 @@ public class TestThreadPoolExecutor {
         showState(queue, threadPool);
         threadPool.submit(new MyTask("4"));
         showState(queue, threadPool);
-        threadPool.submit(new MyTask("5", 3600000));
+        threadPool.submit(new MyTask("5"));
         showState(queue, threadPool);
         threadPool.submit(new MyTask("6"));
         showState(queue, threadPool);
