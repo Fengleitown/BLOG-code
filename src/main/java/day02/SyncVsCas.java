@@ -5,7 +5,7 @@ import jdk.internal.misc.Unsafe;
 
 // --add-opens java.base/jdk.internal.misc=ALL-UNNAMED
 public class SyncVsCas {
-    static final Unsafe U = Unsafe.getUnsafe();//Unsafe是AtomicInteger的底层实现，作用就一个，多线程下修改共享变量保证原子性。
+    static final Unsafe U = Unsafe.getUnsafe();
     static final long BALANCE = U.objectFieldOffset(Account.class, "balance");
 
     static class Account {
@@ -80,8 +80,25 @@ public class SyncVsCas {
     }
 
     public static void main(String[] args) {
+//        Account account = new Account();
+//        cas(account);
         Account account = new Account();
-        cas(account);
+        while (true) {
+            int old = account.balance;
+            int news = old + 5;
+            if (U.compareAndSetInt(account, BALANCE, old, news)) {
+                break;
+            }
+        }
+
+        System.out.println(account.balance);
+// 这个方法就是大名鼎鼎的CAS。
+//      原理 本来就是 10 的基础上加 5，现在防止多线程情况下静态变量被篡改或者是覆盖新值，就引用了这个方法.
+//       拿到静态变量balance的值，与old多比较，相同则说明没有其他线程来改变静态变量的值。则我可以修改成功。
+//        如果拿到静态变量balance的值!=old，则compareAndSetInt()就修改失败了。
+
+
+
     }
 
 
