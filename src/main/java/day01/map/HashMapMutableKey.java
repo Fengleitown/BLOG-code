@@ -1,6 +1,7 @@
 package day01.map;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Objects;
 
 public class HashMapMutableKey {
@@ -13,6 +14,7 @@ public class HashMapMutableKey {
 
         stu.age = 19;
         System.out.println(map.get(stu));
+        Hashtable<Object, Object> objectObjectHashtable = new Hashtable<>();
     }
 
     static class Student {
